@@ -34,6 +34,16 @@ public:
 		m_MaxImag = imag + newHeight / 2.0;
 	}
 
+	void Pan(double deltaX, double deltaY) {
+		double realShift = deltaX * (m_MaxReal - m_MinReal) / m_Width;
+		double imagShift = deltaY * (m_MaxImag - m_MinImag) / m_Height;
+
+		m_MinReal -= realShift;
+		m_MaxReal -= realShift;
+		m_MinImag -= imagShift;
+		m_MaxImag -= imagShift;
+	}
+
 	void Update(const FractalFunc& fractalFunc, const VisualizerFunc& visualizeFunc) {
 		for (uint32_t x = 0; x < m_Width; ++x) {
 			for (uint32_t y = 0; y < m_Height; ++y) {
