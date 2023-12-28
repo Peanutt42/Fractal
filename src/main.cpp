@@ -5,7 +5,7 @@
 int main() {
     const int width = 800, height = 800;
 
-    sf::RenderWindow window(sf::VideoMode({ width, height }), "Zoomable Mandelbrot Fractal", sf::Style::Titlebar | sf::Style::Close);
+    sf::RenderWindow window(sf::VideoMode({ width, height }), "Fractal", sf::Style::Titlebar | sf::Style::Close);
 
     Visualizer visualizer(width, height, 100);
 

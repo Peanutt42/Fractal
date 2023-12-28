@@ -32,6 +32,9 @@ public:
 		m_MaxReal = real + newWidth / 2.0;
 		m_MinImag = imag - newHeight / 2.0;
 		m_MaxImag = imag + newHeight / 2.0;
+
+		// moves so the camera doesn't center on the zoomed position
+		Pan(x - (m_Width / 2), y - (m_Height / 2));
 	}
 
 	void Pan(double deltaX, double deltaY) {
