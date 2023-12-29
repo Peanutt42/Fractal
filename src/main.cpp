@@ -4,6 +4,7 @@
 
 int main() {
     const int width = 800, height = 800;
+    const double quality = 50.0;
 
     sf::RenderWindow window(sf::VideoMode({ width, height }), "Fractal", sf::Style::Titlebar | sf::Style::Close);
 
@@ -18,11 +19,8 @@ int main() {
                 window.close();
             }
             else if (event.type == sf::Event::MouseWheelScrolled) {
-                double mouseX = event.mouseWheelScroll.x;
-                double mouseY = event.mouseWheelScroll.y;
-
-                double factor = 1.0 + (event.mouseWheelScroll.delta / 3.0);
-                visualizer.Zoom(mouseX, mouseY, factor);
+                double factor = 1.0 + (event.mouseWheelScroll.delta * 0.1);
+                visualizer.Zoom(event.mouseWheelScroll.x, event.mouseWheelScroll.y, factor);
             }
         }
 
@@ -32,7 +30,7 @@ int main() {
         lastMousePosition = currentMosuePosition;
 
 
-        visualizer.Update(mandelbrot, red_visualizer);
+        visualizer.Update(mandelbrot);
 
         window.clear();
         visualizer.Draw(window);

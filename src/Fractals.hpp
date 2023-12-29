@@ -1,11 +1,16 @@
 #pragma once
 
+#include <SFML/Graphics.hpp>
+
 #include <functional>
 
-using FractalFunc = std::function<int(double real, double imag, int max_iterations)>;
+using FractalFunc = std::function<sf::Color(double x, double y, int max_iterations)>;
 
 
-int mandelbrot(double real, double imag, int max_iterations) {
+sf::Color mandelbrot(double x, double y, int max_iterations) {
+    double real = -2.0 + x * 4.0;
+    double imag = -2.0 + y * 4.0;
+
     int iterations = 0;
     double r = 0.0;
     double i = 0.0;
@@ -17,5 +22,6 @@ int mandelbrot(double real, double imag, int max_iterations) {
         iterations++;
     }
 
-    return iterations;
+    int value = 255 * iterations / max_iterations;
+    return sf::Color(value, value, value, value);
 }
