@@ -1,6 +1,7 @@
 #pragma once
 
 #include "Fractals.hpp"
+#include "Colors.hpp"
 
 #include <SFML/Graphics.hpp>
 
@@ -34,20 +35,17 @@ public:
 		m_OffsetY -= deltaY / m_Zoom;
 	}
 
-	void Update(const FractalFunc& fractalFunc) {
+	void Update(const FractalFunc& fractalFunc, const ColorFunc& colorFunc) {
 		for (uint32_t x = 0; x < m_Width; ++x) {
 			for (uint32_t y = 0; y < m_Height; ++y) {
 				double new_x = (((x - m_Width / 2.0) / m_Zoom) + m_OffsetX) / m_Width;
 				double new_y = (((y - m_Height / 2.0) / m_Zoom) + m_OffsetY) / m_Height;
 
 				double result = fractalFunc(new_x, new_y, m_MaxIterations);
-				if (result == (double)m_MaxIterations)
-					m_Image.setPixel({ x,y }, sf::Color(0, 0, 0));
-				else {
-					double value = clamp(0.0, 1.0, result / m_MaxIterations);
-
-					m_Image.setPixel({ x, y }, sf::Color(65 * value, 90 * value, 160 * value));
-				}
+				if ((int)result == m_MaxIterations)
+					m_Image.setPixel({ x,y }, sf::Color::Black);
+				else
+					m_Image.setPixel({ x, y }, colorFunc(std::abs(result), m_MaxIterations));
 			}
 		}
 

@@ -7,7 +7,7 @@ int main() {
 
     sf::RenderWindow window(sf::VideoMode({ width, height }), "Fractal", sf::Style::Titlebar | sf::Style::Close);
 
-    Visualizer visualizer(width, height, 300);
+    Visualizer visualizer(width, height, 1000);
 
     sf::Vector2i lastMousePosition = sf::Mouse::getPosition(window);
 
@@ -43,13 +43,13 @@ int main() {
         switch (fractalChoice) {
         default:
         case 1:
-            visualizer.Update(mandelbrot); break;
+            visualizer.Update(mandelbrot, greyscale); break;
         case 2:
-            visualizer.Update(julia); break;
+            visualizer.Update(julia, blue); break;
         case 3:
-            visualizer.Update(burningShip); break;
+            visualizer.Update(burningShip, colorful); break;
         case 4:
-            visualizer.Update(tricorn); break;
+            visualizer.Update(tricorn, colorful); break;
         }
 
         if (sf::Keyboard::isKeyPressed(sf::Keyboard::LControl) && sf::Keyboard::isKeyPressed(sf::Keyboard::S)) {
