@@ -12,10 +12,10 @@ You can zoom and move the view as close as you want since we use double precisio
 
 ### Outputs:
 #### Mandelbrot:
-![alt text](https://github.com/Peanutt42/Fractal/blob/main/examples/mandelbrot.jpg)
+![alt text](examples/mandelbrot.jpg)
 #### Julia:
-![alt text](https://github.com/Peanutt42/Fractal/blob/main/examples/julia.jpg)
+![alt text](examples/julia.jpg)
 #### Burning ship:
-![alt text](https://github.com/Peanutt42/Fractal/blob/main/examples/burning_ship.jpg)
+![alt text](examples/burning_ship.jpg)
 #### Tricorn:
-![alt text](https://github.com/Peanutt42/Fractal/blob/main/examples/tricorn.jpg)
+![alt text](examples/tricorn.jpg)
