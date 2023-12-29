@@ -9,6 +9,7 @@ You can zoom and move the view as close as you want since we use double precisio
 #### Decrease maximum iterations: ```D```
 #### Enable multithreading: ```Q```
 #### Disable multithreading: ```E```
+#### Save to file: ```Ctrl``` + ```S```
 
 ### Outputs:
 #### Mandelbrot:
