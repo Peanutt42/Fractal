@@ -7,6 +7,8 @@ You can zoom and move the view as close as you want since we use double precisio
 #### Zoom: ```Mouse wheel```
 #### Increase maximum iterations: ```A```
 #### Decrease maximum iterations: ```D```
+#### Enable multithreading: ```Q```
+#### Disable multithreading: ```E```
 
 ### Outputs:
 #### Mandelbrot:

@@ -2,6 +2,7 @@
 
 #include "Fractals.hpp"
 #include "Colors.hpp"
+#include "ThreadPool.hpp"
 
 #include <SFML/Graphics.hpp>
 
@@ -37,17 +38,17 @@ public:
 
 	void Update(const FractalFunc& fractalFunc, const ColorFunc& colorFunc) {
 		for (uint32_t x = 0; x < m_Width; ++x) {
-			for (uint32_t y = 0; y < m_Height; ++y) {
-				double new_x = (((x - m_Width / 2.0) / m_Zoom) + m_OffsetX) / m_Width;
-				double new_y = (((y - m_Height / 2.0) / m_Zoom) + m_OffsetY) / m_Height;
-
-				double result = fractalFunc(new_x, new_y, m_MaxIterations);
-				if ((int)result == m_MaxIterations)
-					m_Image.setPixel({ x,y }, sf::Color::Black);
-				else
-					m_Image.setPixel({ x, y }, colorFunc(std::abs(result), m_MaxIterations));
+			if (m_MultithreadingEnabled) {
+				m_ThreadPool.add([this, x, fractalFunc, colorFunc] {
+					Work(x, fractalFunc, colorFunc);
+					});
 			}
+			else
+				Work(x, fractalFunc, colorFunc);
 		}
+
+		if (m_MultithreadingEnabled)
+			m_ThreadPool.wait();
 
 		m_Texture.loadFromImage(m_Image);
 	}
@@ -61,12 +62,31 @@ public:
 		m_Image.saveToFile(filepath);
 	}
 
+	void SetMultithreading(bool enabled) { m_MultithreadingEnabled = enabled; }
+
 	void SetMaxIterations(int maxIterations) { m_MaxIterations = maxIterations; }
 	int GetMaxIterations() const { return m_MaxIterations; }
 
 private:
+	void Work(uint32_t x, const FractalFunc& fractalFunc, const ColorFunc& colorFunc) {
+		for (uint32_t y = 0; y < m_Height; ++y) {
+			double new_x = (((x - m_Width / 2.0) / m_Zoom) + m_OffsetX) / m_Width;
+			double new_y = (((y - m_Height / 2.0) / m_Zoom) + m_OffsetY) / m_Height;
+
+			double result = fractalFunc(new_x, new_y, m_MaxIterations);
+			if ((int)result == m_MaxIterations)
+				m_Image.setPixel({ x,y }, sf::Color::Black);
+			else
+				m_Image.setPixel({ x, y }, colorFunc(std::abs(result), m_MaxIterations));
+		}
+	}
+
+private:
 	sf::Image m_Image;
 	sf::Texture m_Texture;
+
+	bool m_MultithreadingEnabled = false;
+	ThreadPool m_ThreadPool;
 
 	int m_Width = 0, m_Height = 0;
 	int m_MaxIterations = 0;

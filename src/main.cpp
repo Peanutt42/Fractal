@@ -23,22 +23,26 @@ int main() {
                 double factor = 1.0 + (event.mouseWheelScroll.delta * 0.1);
                 visualizer.Zoom(event.mouseWheelScroll.x, event.mouseWheelScroll.y, factor);
             }
-            else if (event.type == sf::Event::KeyPressed) {
-                if (event.key.code == sf::Keyboard::Num1)
-                    fractalChoice = 1;
-                else if (event.key.code == sf::Keyboard::Num2)
-                    fractalChoice = 2;
-                else if (event.key.code == sf::Keyboard::Num3)
-                    fractalChoice = 3;
-                else if (event.key.code == sf::Keyboard::Num4)
-                    fractalChoice = 4;
-
-                if (event.key.code == sf::Keyboard::A)
-                    visualizer.SetMaxIterations(visualizer.GetMaxIterations() + 50);
-                else if (event.key.code == sf::Keyboard::D)
-                    visualizer.SetMaxIterations(visualizer.GetMaxIterations() - 50);
-            }
         }
+
+        if (sf::Keyboard::isKeyPressed(sf::Keyboard::Num1))
+            fractalChoice = 1;
+        if (sf::Keyboard::isKeyPressed(sf::Keyboard::Num2))
+            fractalChoice = 2;
+        if (sf::Keyboard::isKeyPressed(sf::Keyboard::Num3))
+            fractalChoice = 3;
+        if (sf::Keyboard::isKeyPressed(sf::Keyboard::Num4))
+            fractalChoice = 4;
+
+        if (sf::Keyboard::isKeyPressed(sf::Keyboard::A))
+            visualizer.SetMaxIterations(visualizer.GetMaxIterations() + 50);
+        if (sf::Keyboard::isKeyPressed(sf::Keyboard::D))
+            visualizer.SetMaxIterations(visualizer.GetMaxIterations() - 50);
+
+        if (sf::Keyboard::isKeyPressed(sf::Keyboard::Q))
+            visualizer.SetMultithreading(true);
+        if (sf::Keyboard::isKeyPressed(sf::Keyboard::E))
+            visualizer.SetMultithreading(false);
 
         sf::Vector2i currentMosuePosition = sf::Mouse::getPosition(window);
         if (sf::Mouse::isButtonPressed(sf::Mouse::Left))
