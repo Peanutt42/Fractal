@@ -7,7 +7,7 @@ int main() {
     
     sf::RenderWindow window(sf::VideoMode({ width, height }), "Fractal", sf::Style::Titlebar | sf::Style::Close);
 
-    Visualizer visualizer(width, height, 200);
+    Visualizer visualizer(width, height, 500); // for high quality, use 40000
 
     sf::Vector2i lastMousePosition = sf::Mouse::getPosition(window);
 
@@ -52,7 +52,7 @@ int main() {
         switch (fractalChoice) {
         default:
         case 1:
-            visualizer.Update(mandelbrot, greyscale); break;
+            visualizer.Update(mandelbrot, colorful); break;
         case 2:
             visualizer.Update(julia, colorful); break;
         case 3:

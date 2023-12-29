@@ -85,7 +85,7 @@ private:
 	sf::Image m_Image;
 	sf::Texture m_Texture;
 
-	bool m_MultithreadingEnabled = false;
+	bool m_MultithreadingEnabled = true;
 	ThreadPool m_ThreadPool;
 
 	int m_Width = 0, m_Height = 0;
