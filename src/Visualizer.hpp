@@ -40,9 +40,14 @@ public:
 				double new_x = (((x - m_Width / 2.0) / m_Zoom) + m_OffsetX) / m_Width;
 				double new_y = (((y - m_Height / 2.0) / m_Zoom) + m_OffsetY) / m_Height;
 
-				double result = clamp(0.0, 1.0, fractalFunc(new_x, new_y, m_MaxIterations) / m_MaxIterations);
-				double value = 255.0 * result;
-				m_Image.setPixel({ x, y }, sf::Color(value, value, value));
+				double result = fractalFunc(new_x, new_y, m_MaxIterations);
+				if (result == (double)m_MaxIterations)
+					m_Image.setPixel({ x,y }, sf::Color(0, 0, 0));
+				else {
+					double value = clamp(0.0, 1.0, result / m_MaxIterations);
+
+					m_Image.setPixel({ x, y }, sf::Color(65 * value, 90 * value, 160 * value));
+				}
 			}
 		}
 

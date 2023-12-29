@@ -7,7 +7,7 @@ int main() {
 
     sf::RenderWindow window(sf::VideoMode({ width, height }), "Fractal", sf::Style::Titlebar | sf::Style::Close);
 
-    Visualizer visualizer(width, height, 100);
+    Visualizer visualizer(width, height, 300);
 
     sf::Vector2i lastMousePosition = sf::Mouse::getPosition(window);
 
@@ -50,6 +50,10 @@ int main() {
             visualizer.Update(burningShip); break;
         case 4:
             visualizer.Update(tricorn); break;
+        }
+
+        if (sf::Keyboard::isKeyPressed(sf::Keyboard::LControl) && sf::Keyboard::isKeyPressed(sf::Keyboard::S)) {
+            std::printf("save");
         }
 
         window.clear();

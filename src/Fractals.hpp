@@ -14,14 +14,14 @@ double julia(double x, double y, int max_iterations) {
     constexpr double imag = 0.156;
 
     int iterations = 0;
-    double zr{ x };
-    double zi{ y };
-    double mod = zr * zr + zi * zi;
+    double r = x;
+    double i = y;
+    double mod = r * r + i * i;
     while (mod < 4.0 && iterations < max_iterations) {
-        double tmp = zr;
-        zr = zr * zr - zi * zi + real;
-        zi = 2.0 * zi * tmp + imag;
-        mod = zr * zr + zi * zi;
+        double tmp = r;
+        r = r * r - i * i + real;
+        i = 2.0 * i * tmp + imag;
+        mod = r * r + i * i;
         iterations++;
     }
     return (double)iterations - std::log2(std::max(1.0, std::log2(mod)));
