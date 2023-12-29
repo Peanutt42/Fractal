@@ -3,11 +3,11 @@
 #include "Visualizer.hpp"
 
 int main() {
-    const int width = 800, height = 800;
-
+    const int width = 1200, height = 1200;
+    
     sf::RenderWindow window(sf::VideoMode({ width, height }), "Fractal", sf::Style::Titlebar | sf::Style::Close);
 
-    Visualizer visualizer(width, height, 1000);
+    Visualizer visualizer(width, height, 200);
 
     sf::Vector2i lastMousePosition = sf::Mouse::getPosition(window);
 
@@ -32,6 +32,11 @@ int main() {
                     fractalChoice = 3;
                 else if (event.key.code == sf::Keyboard::Num4)
                     fractalChoice = 4;
+
+                if (event.key.code == sf::Keyboard::A)
+                    visualizer.SetMaxIterations(visualizer.GetMaxIterations() + 50);
+                else if (event.key.code == sf::Keyboard::D)
+                    visualizer.SetMaxIterations(visualizer.GetMaxIterations() - 50);
             }
         }
 
@@ -45,7 +50,7 @@ int main() {
         case 1:
             visualizer.Update(mandelbrot, greyscale); break;
         case 2:
-            visualizer.Update(julia, blue); break;
+            visualizer.Update(julia, colorful); break;
         case 3:
             visualizer.Update(burningShip, colorful); break;
         case 4:
@@ -53,7 +58,9 @@ int main() {
         }
 
         if (sf::Keyboard::isKeyPressed(sf::Keyboard::LControl) && sf::Keyboard::isKeyPressed(sf::Keyboard::S)) {
-            std::printf("save");
+            std::printf("saving to output.jpg - ");
+            visualizer.SaveToFile("output.jpg");
+            std::printf("finished.\n");
         }
 
         window.clear();

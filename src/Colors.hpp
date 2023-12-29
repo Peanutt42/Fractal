@@ -17,14 +17,10 @@ sf::Color fromHsl(float hue, float saturation, float lightness);
 
 sf::Color colorful(double iterations, int max_iterations) {
 	double hue = std::fmod(iterations * 10.0, 360.0);
-
-	double saturation = 1.0;
 	double lightness = 0.5 + std::log(1.0 + iterations) / std::log(1.0 + max_iterations);
 
 	return fromHsl(hue, 1.0, lightness);
 }
-
-
 
 
 sf::Color fromHsl(float hue, float saturation, float lightness) {

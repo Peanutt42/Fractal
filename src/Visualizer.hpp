@@ -57,6 +57,13 @@ public:
 		window.draw(sprite);
 	}
 
+	void SaveToFile(const std::filesystem::path& filepath) const {
+		m_Image.saveToFile(filepath);
+	}
+
+	void SetMaxIterations(int maxIterations) { m_MaxIterations = maxIterations; }
+	int GetMaxIterations() const { return m_MaxIterations; }
+
 private:
 	sf::Image m_Image;
 	sf::Texture m_Texture;
