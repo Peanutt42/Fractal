@@ -6,6 +6,14 @@
 
 #include <functional>
 
+inline double clamp(double min, double max, double value) {
+	if (value < min)
+		return min;
+	if (value > max)
+		return max;
+	return value;
+}
+
 class Visualizer {
 public:
 	Visualizer(int width, int height, int max_iterations)
@@ -32,7 +40,9 @@ public:
 				double new_x = (((x - m_Width / 2.0) / m_Zoom) + m_OffsetX) / m_Width;
 				double new_y = (((y - m_Height / 2.0) / m_Zoom) + m_OffsetY) / m_Height;
 
-				m_Image.setPixel({ x, y }, fractalFunc(new_x, new_y, m_MaxIterations));
+				double result = clamp(0.0, 1.0, fractalFunc(new_x, new_y, m_MaxIterations) / m_MaxIterations);
+				double value = 255.0 * result;
+				m_Image.setPixel({ x, y }, sf::Color(value, value, value));
 			}
 		}
 
