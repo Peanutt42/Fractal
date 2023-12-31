@@ -6,6 +6,7 @@
 
 #include <SFML/Graphics.hpp>
 
+#include <iostream>
 #include <functional>
 
 inline double clamp(double min, double max, double value) {
@@ -22,7 +23,8 @@ public:
 		: m_Width(width), m_Height(height), m_MaxIterations(max_iterations)
 	{
 		m_Image.create({ (uint32_t)m_Width, (uint32_t)m_Height }, sf::Color::Black);
-		m_Texture.loadFromImage(m_Image);
+		if (!m_Texture.loadFromImage(m_Image))
+			std::cout << "Failed to load image to texture!" << std::endl;
 	}
 
 	void Zoom(int x, int y, double factor) {
@@ -50,7 +52,8 @@ public:
 		if (m_MultithreadingEnabled)
 			m_ThreadPool.wait();
 
-		m_Texture.loadFromImage(m_Image);
+		if (!m_Texture.loadFromImage(m_Image))
+			std::cout << "Failed to load image to texture!" << std::endl;
 	}
 
 	void Draw(sf::RenderWindow& window) {
@@ -59,7 +62,8 @@ public:
 	}
 
 	void SaveToFile(const std::filesystem::path& filepath) const {
-		m_Image.saveToFile(filepath);
+		if (!m_Image.saveToFile(filepath))
+			std::cout << "Failed to save output to " << filepath.string() << std::endl;
 	}
 
 	void SetMultithreading(bool enabled) { m_MultithreadingEnabled = enabled; }
