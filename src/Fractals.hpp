@@ -1,13 +1,12 @@
 #pragma once
 
 #include <SFML/Graphics.hpp>
-
+#include <cmath>
 #include <functional>
 
 using FractalFunc = std::function<double(double x, double y, int max_iterations)>;
 
 using Vec2 = sf::Vector2<double>;
-
 
 double julia(double x, double y, int max_iterations) {
     constexpr double real = -0.8;
@@ -24,7 +23,7 @@ double julia(double x, double y, int max_iterations) {
         mod = r * r + i * i;
         iterations++;
     }
-    return (double)iterations - std::log2(std::max(1.0, std::log2(mod)));
+    return (double)iterations - log2(std::max(1.0, log2(mod)));
 }
 
 double mandelbrot(double x, double y, int max_iterations) {
@@ -43,7 +42,7 @@ double mandelbrot(double x, double y, int max_iterations) {
         iterations++;
     }
 
-    return (double)iterations - std::log2(std::max(1.0, std::log2(mod)));
+    return (double)iterations - log2(std::max(1.0, log2(mod)));
 }
 
 double burningShip(double x, double y, int max_iterations) {
@@ -63,7 +62,7 @@ double burningShip(double x, double y, int max_iterations) {
         iterations++;
     }
 
-    return (double)iterations - std::log2(std::max(1.0, std::log2(mod)));
+    return (double)iterations - log2(std::max(1.0, log2(mod)));
 }
 
 double tricorn(double x, double y, int max_iterations) {
@@ -83,5 +82,5 @@ double tricorn(double x, double y, int max_iterations) {
         iterations++;
     }
 
-    return (double)iterations - std::log2(std::max(1.0, std::log2(mod)));
+    return (double)iterations - log2(std::max(1.0, log2(mod)));
 }

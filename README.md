@@ -2,6 +2,8 @@
 This Application allows you to view different kinds of fractals.
 You can zoom and move the view as close as you want since we use double precision
 
+### [How to build (Building.md)](Building.md)
+
 ### Controls:
 #### Move: ```Mouse Left```
 #### Zoom: ```Mouse wheel```
