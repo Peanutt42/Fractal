@@ -5,7 +5,7 @@
 int main() {
     uint32_t width = 1200, height = 1200;
     
-    sf::RenderWindow window(sf::VideoMode({ width, height }), "Fractal", sf::Style::Titlebar | sf::Style::Close);
+    sf::RenderWindow window(sf::VideoMode({ width, height }), "Fractal");
 
     Visualizer visualizer(width, height, 500); // for high quality, use 40000
 
@@ -18,11 +18,23 @@ int main() {
 
         sf::Event event;
         while (window.pollEvent(event)) {
-            if (event.type == sf::Event::Closed)
+            switch (event.type) {
+            default: break;
+            case sf::Event::Closed:
                 window.close();
-            else if (windowFocused && event.type == sf::Event::MouseWheelScrolled) {
-                double factor = 1.0 + (event.mouseWheelScroll.delta * 0.1);
-                visualizer.Zoom(event.mouseWheelScroll.x, event.mouseWheelScroll.y, factor);
+                break;
+            case sf::Event::Resized:
+                if (event.size.width != 0 && event.size.height != 0) {
+					width = event.size.width;
+					height = event.size.height;
+					visualizer.Resize(width, height);
+	                window.setView(sf::View(sf::FloatRect({0.f,0.f }, {(float)width, (float)height })));
+                }
+				break;
+            case sf::Event::MouseWheelScrolled:
+                if (windowFocused)
+                    visualizer.Zoom(event.mouseWheelScroll.x, event.mouseWheelScroll.y, event.mouseWheelScroll.delta);
+                break;
             }
         }
 
@@ -71,7 +83,7 @@ int main() {
             std::printf("finished.\n");
         }
 
-        window.clear();
+        window.clear(sf::Color::White);
         visualizer.Draw(window);
         window.display();
     }
