@@ -19,12 +19,13 @@ inline double clamp(double min, double max, double value) {
 
 class Visualizer {
 public:
-	Visualizer(int width, int height, int max_iterations)
+	Visualizer(uint32_t width, uint32_t height, int max_iterations)
 		: m_Width(width), m_Height(height), m_MaxIterations(max_iterations)
 	{
-		m_Image.create({ (uint32_t)m_Width, (uint32_t)m_Height }, sf::Color::Black);
-		if (!m_Texture.loadFromImage(m_Image))
-			std::cout << "Failed to load image to texture!" << std::endl;
+        m_Image.create({ m_Width, m_Height }, sf::Color::Black);
+        m_Texture.setSmooth(true);
+        if (!m_Texture.loadFromImage(m_Image))
+            std::cout << "Failed to load image to texture!" << std::endl;
 	}
 
 	void Zoom(int x, int y, double factor) {
@@ -43,7 +44,7 @@ public:
 			if (m_MultithreadingEnabled) {
 				m_ThreadPool.add([this, x, fractalFunc, colorFunc] {
 					Work(x, fractalFunc, colorFunc);
-					});
+                });
 			}
 			else
 				Work(x, fractalFunc, colorFunc);
@@ -92,8 +93,8 @@ private:
 	bool m_MultithreadingEnabled = true;
 	ThreadPool m_ThreadPool;
 
-	int m_Width = 0, m_Height = 0;
-	int m_MaxIterations = 0;
+	uint32_t m_Width = 0, m_Height = 0;
+	uint32_t m_MaxIterations = 0;
 
 	double m_OffsetX = 0.0, m_OffsetY = 0.0;
 	double m_Zoom = 1.0;

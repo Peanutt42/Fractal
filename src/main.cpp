@@ -3,7 +3,7 @@
 #include "Visualizer.hpp"
 
 int main() {
-    const int width = 1200, height = 1200;
+    uint32_t width = 1200, height = 1200;
     
     sf::RenderWindow window(sf::VideoMode({ width, height }), "Fractal", sf::Style::Titlebar | sf::Style::Close);
 
@@ -14,39 +14,43 @@ int main() {
     int fractalChoice = 1;
 
     while (window.isOpen()) {
+        bool windowFocused = window.hasFocus();
+
         sf::Event event;
         while (window.pollEvent(event)) {
-            if (event.type == sf::Event::Closed) {
+            if (event.type == sf::Event::Closed)
                 window.close();
-            }
-            else if (event.type == sf::Event::MouseWheelScrolled) {
+            else if (windowFocused && event.type == sf::Event::MouseWheelScrolled) {
                 double factor = 1.0 + (event.mouseWheelScroll.delta * 0.1);
                 visualizer.Zoom(event.mouseWheelScroll.x, event.mouseWheelScroll.y, factor);
             }
         }
 
-        if (sf::Keyboard::isKeyPressed(sf::Keyboard::Num1))
-            fractalChoice = 1;
-        if (sf::Keyboard::isKeyPressed(sf::Keyboard::Num2))
-            fractalChoice = 2;
-        if (sf::Keyboard::isKeyPressed(sf::Keyboard::Num3))
-            fractalChoice = 3;
-        if (sf::Keyboard::isKeyPressed(sf::Keyboard::Num4))
-            fractalChoice = 4;
-
-        if (sf::Keyboard::isKeyPressed(sf::Keyboard::A))
-            visualizer.SetMaxIterations(visualizer.GetMaxIterations() + 50);
-        if (sf::Keyboard::isKeyPressed(sf::Keyboard::D))
-            visualizer.SetMaxIterations(visualizer.GetMaxIterations() - 50);
-
-        if (sf::Keyboard::isKeyPressed(sf::Keyboard::Q))
-            visualizer.SetMultithreading(true);
-        if (sf::Keyboard::isKeyPressed(sf::Keyboard::E))
-            visualizer.SetMultithreading(false);
-
         sf::Vector2i currentMosuePosition = sf::Mouse::getPosition(window);
-        if (sf::Mouse::isButtonPressed(sf::Mouse::Left))
-            visualizer.Pan(currentMosuePosition.x - lastMousePosition.x, currentMosuePosition.y - lastMousePosition.y);
+
+        if (windowFocused) {
+            if (sf::Keyboard::isKeyPressed(sf::Keyboard::Num1))
+                fractalChoice = 1;
+            if (sf::Keyboard::isKeyPressed(sf::Keyboard::Num2))
+                fractalChoice = 2;
+            if (sf::Keyboard::isKeyPressed(sf::Keyboard::Num3))
+                fractalChoice = 3;
+            if (sf::Keyboard::isKeyPressed(sf::Keyboard::Num4))
+                fractalChoice = 4;
+
+            if (sf::Keyboard::isKeyPressed(sf::Keyboard::A))
+                visualizer.SetMaxIterations(visualizer.GetMaxIterations() + 50);
+            if (sf::Keyboard::isKeyPressed(sf::Keyboard::D))
+                visualizer.SetMaxIterations(visualizer.GetMaxIterations() - 50);
+
+            if (sf::Keyboard::isKeyPressed(sf::Keyboard::Q))
+                visualizer.SetMultithreading(true);
+            if (sf::Keyboard::isKeyPressed(sf::Keyboard::E))
+                visualizer.SetMultithreading(false);
+
+            if (sf::Mouse::isButtonPressed(sf::Mouse::Left))
+                visualizer.Pan(currentMosuePosition.x - lastMousePosition.x, currentMosuePosition.y - lastMousePosition.y);
+        }
         lastMousePosition = currentMosuePosition;
 
         switch (fractalChoice) {
@@ -61,7 +65,7 @@ int main() {
             visualizer.Update(tricorn, colorful); break;
         }
 
-        if (sf::Keyboard::isKeyPressed(sf::Keyboard::LControl) && sf::Keyboard::isKeyPressed(sf::Keyboard::S)) {
+        if (windowFocused && sf::Keyboard::isKeyPressed(sf::Keyboard::LControl) && sf::Keyboard::isKeyPressed(sf::Keyboard::S)) {
             std::printf("saving to output.jpg - ");
             visualizer.SaveToFile("output.jpg");
             std::printf("finished.\n");
